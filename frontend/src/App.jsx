@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
 import "./index.css";
-
-
-
-
-
-
 import {
   LineChart,
   Line,
@@ -27,22 +21,22 @@ function App() {
 
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/recommendations")
+    fetch("https://ai-cloud-cost-optimizer.onrender.com/recommendations")
   .then(res => res.json())
   .then(data => setRecommendations(data));
-  fetch("http://127.0.0.1:8000/cost-summary")
+  fetch("https://ai-cloud-cost-optimizer.onrender.com/cost-summary")
     .then((res) => res.json())
     .then((data) => setSummary(data));
 
-  fetch("http://127.0.0.1:8000/waste")
+  fetch("https://ai-cloud-cost-optimizer.onrender.com/waste")
     .then((res) => res.json())
     .then((data) => setWaste(data));
 
-  fetch("http://127.0.0.1:8000/usage")
+  fetch("https://ai-cloud-cost-optimizer.onrender.com/usage")
     .then((res) => res.json())
     .then((data) => setUsage(data));
 
-  fetch("http://127.0.0.1:8000/anomalies") // ✅ ADD THIS
+  fetch("https://ai-cloud-cost-optimizer.onrender.com/anomalies") // ✅ ADD THIS
     .then((res) => res.json())
     .then((data) => setAnomalies(data));
 }, []);
