@@ -1,0 +1,91 @@
+import { useEffect, useState } from "react";
+
+function App() {
+  const [summary, setSummary] = useState(null);
+  const [waste, setWaste] = useState([]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/cost-summary")
+      .then((res) => res.json())
+      .then((data) => setSummary(data));
+
+    fetch("http://127.0.0.1:8000/waste")
+      .then((res) => res.json())
+      .then((data) => setWaste(data));
+  }, []);
+
+  if (!summary) {
+    return <div className="p-10">Loading...</div>;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <h1 className="text-3xl font-bold mb-6">
+        AI Cloud Cost Optimizer Dashboard
+      </h1>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="bg-gray-800 p-6 rounded-xl shadow">
+          <h2 className="text-lg text-gray-400">Total Cost Today</h2>
+          <p className="text-2xl font-bold mt-2">
+            ₹{summary.total_cost_today}
+          </p>
+        </div>
+
+        <div className="bg-gray-800 p-6 rounded-xl shadow">
+          <h2 className="text-lg text-gray-400">Money Wasted</h2>
+          <p className="text-2xl font-bold mt-2 text-red-400">
+            ₹{summary.money_wasted}
+          </p>
+        </div>
+
+        <div className="bg-gray-800 p-6 rounded-xl shadow">
+          <h2 className="text-lg text-gray-400">
+            Predicted Cost Tomorrow
+          </h2>
+          <p className="text-2xl font-bold mt-2 text-green-400">
+            ₹{summary.predicted_cost_tomorrow}
+          </p>
+        </div>
+      </div>
+
+      {/* Waste Table */}
+      <div className="bg-gray-800 p-6 rounded-xl shadow">
+        <h2 className="text-xl font-semibold mb-4">
+          Wasted Resources
+        </h2>
+
+        {waste.length === 0 ? (
+          <p className="text-gray-400">No waste detected 🎉</p>
+        ) : (
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-gray-700">
+                <th className="py-2">Resource</th>
+                <th className="py-2">Idle Hours</th>
+                <th className="py-2">Money Wasted</th>
+              </tr>
+            </thead>
+            <tbody>
+              {waste.map((item) => (
+                <tr
+                  key={item.resource_id}
+                  className="border-b border-gray-700"
+                >
+                  <td className="py-2">{item.resource_id}</td>
+                  <td className="py-2">{item.idle_hours}</td>
+                  <td className="py-2 text-red-400">
+                    ₹{item.money_wasted}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default App;
