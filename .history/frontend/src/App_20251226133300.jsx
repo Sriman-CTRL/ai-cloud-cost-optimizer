@@ -22,14 +22,14 @@ const API_BASE = "https://ai-cloud-cost-optimizer.onrender.com";
 
 
   useEffect(() => {
-fetch(`${API_BASE}/recommendations`)
+    fetch("https://ai-cloud-cost-optimizer.onrender.com/recommendations")
   .then(res => res.json())
   .then(data => setRecommendations(data));
-  fetch(`${API_BASE}/cost-summary`)
+  fetch("https://ai-cloud-cost-optimizer.onrender.com/cost-summary")
     .then((res) => res.json())
     .then((data) => setSummary(data));
 
-  fetch(`${API_BASE}/waste`)
+  fetch("https://ai-cloud-cost-optimizer.onrender.com/waste")
     .then((res) => res.json())
     .then((data) => setWaste(data));
 
